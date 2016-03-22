@@ -5,6 +5,8 @@ source ../bin/tasks.sh
 HOSTS_DIR=hosts
 
 function build() {
+  echo "build hosts in $HOSTS_DIR"
+
   for host_dir in $(ls $HOSTS_DIR); do \
     full_dir=$HOSTS_DIR/$host_dir
     if [ -d $full_dir ]; then
@@ -13,9 +15,13 @@ function build() {
       echo "finished 'make build'"
     fi
   done
+
+  echo "build hosts finished"
 }
 
 function run() {
+  echo "run hosts in $HOSTS_DIR"
+
   for host_dir in $(ls $HOSTS_DIR); do \
     full_dir=$HOSTS_DIR/$host_dir
     if [ -d $full_dir ]; then
@@ -24,6 +30,8 @@ function run() {
       echo "'make run' finished"
     fi
   done
+
+  echo "run hosts finished"
 }
 
 function help() {
