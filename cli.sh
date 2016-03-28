@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+IMAGE_TAG="wiznwit:magic"
 
 source ../bin/tasks.sh
 
@@ -6,13 +7,13 @@ HOSTS_DIR=hosts
 
 function build() {
   docker build \
-    --tag magic:root \
+    --tag $IMAGE_TAG \
     . # dot!
 }
 
 function run() {
   docker run \
-    magic:root
+    $IMAGE_TAG
 }
 
 function build-hosts() {
