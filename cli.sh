@@ -5,6 +5,17 @@ source ../bin/tasks.sh
 HOSTS_DIR=hosts
 
 function build() {
+  docker build \
+    --tag magic:root \
+    . # dot!
+}
+
+function run() {
+  docker run \
+    magic:root
+}
+
+function build-hosts() {
   echo "build hosts in $HOSTS_DIR"
 
   for host_dir in $(ls $HOSTS_DIR); do \
@@ -19,7 +30,7 @@ function build() {
   echo "build hosts finished"
 }
 
-function run() {
+function run-hosts() {
   echo "run hosts in $HOSTS_DIR"
 
   for host_dir in $(ls $HOSTS_DIR); do \
@@ -35,20 +46,20 @@ function run() {
 }
 
 function help() {
-  echo "Container: $CONTAINER_NAME"
-  echo ""
-  echo "Usage:"
-  echo ""
-  echo './cli.sh $command'
-  echo ""
-  echo "commands:"
-  echo "build  - build docker container"
-  echo "run    - run docker container"
-  echo "remove - remove container"
-  echo "logs   - tail the container logs"
-  echo "debug  - connect to container debug session"
-  echo "stop   - stop container"
-  echo "help   - this help text"
+  echo "\
+Usage
+make TASK
+./cli.sh TASK
+
+TASKS
+  build       - build magic-root dependency containers
+  run         - run magic-root volume
+
+  build-hosts - build docker containers
+  run-hosts - run docker containers
+
+  help    - this help text
+"
 }
 
 if [ $1 ]
