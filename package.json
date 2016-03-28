@@ -1,8 +1,7 @@
 {
-  "name": "magic-grundstein",
+  "name": "grundstein-magic",
   "version": "0.0.1",
-  "description": "the magic grundstein docker build tools",
-  "main": "index.js",
+  "description": "the grundstein magic-root docker build tools",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/grundstein/magic.git"
@@ -12,5 +11,8 @@
   "bugs": {
     "url": "https://github.com/grundstein/magic/issues"
   },
-  "homepage": "https://github.com/grundstein/magic#readme"
+  "homepage": "https://github.com/grundstein/magic#readme",
+  "dependencies": {
+    "magic-root": "github:magic/root"
+  }
 }
