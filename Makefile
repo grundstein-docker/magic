@@ -1,6 +1,10 @@
 .PHONY: \
 	all \
 	build \
+	run \
+	build-hosts \
+	run-hosts \
+	ips \
 	help
 
 # TASKS
@@ -13,18 +17,15 @@ build:
 run:
 	@./cli.sh run
 
+build-hosts:
+	@./cli.sh build-hosts
+
+run-hosts:
+	@./cli.sh run-hosts
+
 ips:
 	@./cli.sh ips
 
 # help output
 help:
-	@echo "\
-Usage \n\
-make TASK\n\
-\n\
-TASKS \n\
-	build   - build docker containers \n\
-	run     - run docker containers \n\
-\n\
-	help    - this help text \n\
-"
+	@./cli.sh help
