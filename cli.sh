@@ -5,9 +5,14 @@ source ../bin/tasks.sh
 
 HOSTS_DIR=hosts
 
+cachebust=`git ls-remote https://github.com/magic/root.git | grep refs/heads/master | cut -f 1`
+echo "building with git hash $cachebust"
+
 function build() {
   docker build \
     --tag $IMAGE_TAG \
+    --build-arg CACHEBUST=$cachebust \
+    --build-arg NODE_ENV=production \
     . # dot!
 }
 
@@ -49,7 +54,7 @@ function run-hosts() {
 function help() {
   echo "\
 Usage
-make TASK
+make magic-TASK
 ./cli.sh TASK
 
 TASKS
