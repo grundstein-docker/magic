@@ -13,6 +13,8 @@ function build() {
     --tag $IMAGE_TAG \
     --build-arg CACHEBUST=$cachebust \
     . # dot!
+
+  build-hosts
 }
 
 function build-hosts() {

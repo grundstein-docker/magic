@@ -14,7 +14,7 @@ all: help
 build:
 	@./cli.sh build
 
-build-hosts: build
+build-hosts:
 	@./cli.sh build-hosts
 
 run:
