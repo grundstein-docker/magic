@@ -5,54 +5,71 @@ source ../../bin/tasks.sh
 
 HOSTS_DIR=hosts
 
-cachebust=`git ls-remote https://github.com/magic/root.git | grep refs/heads/master | cut -f 1`
-echo "building with git hash $cachebust"
+function loop-hosts() {
+  echo "START: loop over hosts in dir $HOSTS_DIR with make task $2"
+  task=$1
+
+  for host_dir in $(ls $HOSTS_DIR); do \
+    full_dir=$HOSTS_DIR/$host_dir
+    if [ -d $full_dir ]; then
+      echo "running 'make $task' in $full_dir"
+      make -C $full_dir $task
+      echo "SUCCESS: 'make $task' finished"
+    else
+      echo "FAIL: not a directory: $full_dir"
+    fi
+  done
+
+  echo "FINISHED: loop over hosts"
+}
 
 function build() {
+  echo "START: building $CONTAINER_NAME"
+
+  cachebust=`git ls-remote https://github.com/magic/root.git | grep refs/heads/master | cut -f 1`
+  echo "building with git hash $cachebust"
+
   docker build \
     --tag $IMAGE_TAG \
     --build-arg CACHEBUST=$cachebust \
     . # dot!
 
   build-hosts
+
+  echo "FINISHED: building $CONTAINER_NAME"
 }
 
 function build-hosts() {
-  echo "build hosts in $PWD/$HOSTS_DIR"
+  echo "START: build hosts in $PWD/$HOSTS_DIR for $CONTAINER_NAME"
 
-  for host_dir in $(ls $HOSTS_DIR); do \
-    full_dir=$HOSTS_DIR/$host_dir
-    if [ -d $full_dir ]; then
-      echo "running 'make build' in $full_dir"
-      make -C $full_dir build
-      echo "SUCCESS: finished 'make build'"
-    else
-      echo "FAIL: not a directory: $full_dir"
-    fi
+  loop-hosts build
 
-  done
-
-  echo "build hosts finished"
+  echo "FINISHED: build hosts in $CONTAINER_NAME"
 }
 
 function run() {
-  echo "run hosts in $PWD/$HOSTS_DIR"
+  echo "START: run hosts in $PWD/$HOSTS_DIR for $CONTAINER_NAME"
 
-  for host_dir in $(ls $HOSTS_DIR); do \
-    full_dir=$HOSTS_DIR/$host_dir
-    echo "try host in dir: $full_dir"
-    if [ -d $full_dir ]; then
-      echo "running 'make run' in $full_dir"
-      make -C $full_dir run
-      echo "SUCCESS: 'make run' finished"
-    else
-      echo "FAIL: not a directory: $full_dir"
-    fi
+  loop-hosts run
 
-  done
-
-  echo "run hosts finished"
+  echo "FINISHED: run hosts for $CONTAINER_NAME"
 }
+
+function update() {
+  echo "START: update $CONTAINER_NAME"
+  git pull
+
+  loop-hosts pull
+
+  echo "FINISHED: update $CONTAINER_NAME"
+}
+
+function status() {
+  git status
+
+  loop-hosts status
+}
+
 
 function help() {
   echo "\

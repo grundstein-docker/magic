@@ -1,3 +1,5 @@
+CLI=./cli.sh
+
 .PHONY: \
 	all \
 	build \
@@ -5,6 +7,8 @@
 	build-hosts \
 	run-hosts \
 	ips \
+	update \
+	status \
 	help
 
 # TASKS
@@ -12,19 +16,28 @@
 all: help
 
 build:
-	@./cli.sh build
+	@${CLI} $@
 
 build-hosts:
-	@./cli.sh build-hosts
+	@${CLI} $@
 
 run:
-	@./cli.sh run
+	@${CLI} $@
 
 run-hosts: run
 
 ips:
-	@./cli.sh ips
+	@${CLI} $@
+
+update:
+	@${CLI} $@
+
+status:
+	@${CLI} $@
 
 # help output
 help:
-	@./cli.sh help
+	@${CLI} $@
+
+test-loop:
+	@${CLI} $@
