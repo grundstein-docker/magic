@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+CONTAINER_NAME='magic'
 IMAGE_TAG="wiznwit:magic"
 
 source ../../bin/tasks.sh
@@ -6,7 +7,7 @@ source ../../bin/tasks.sh
 HOSTS_DIR=hosts
 
 function build() {
-  echo "START: building $CONTAINER_NAME"
+  echo-start "build"
 
   cachebust=`git ls-remote https://github.com/magic/root.git | grep refs/heads/master | cut -f 1`
   echo "building with git hash $cachebust"
@@ -18,38 +19,39 @@ function build() {
 
   build-hosts
 
-  echo "FINISHED: building $CONTAINER_NAME"
+  echo-finished "build"
 }
 
 function build-hosts() {
-  echo "START: build hosts in $PWD/$HOSTS_DIR for $CONTAINER_NAME"
+  echo-start "build-hosts"
 
   loop-dirs $HOSTS_DIR build
 
-  echo "FINISHED: build hosts in $CONTAINER_NAME"
+  echo-finished "build-hosts"
 }
 
 function run() {
-  echo "START: run hosts in $PWD/$HOSTS_DIR for $CONTAINER_NAME"
+  echo-start "run"
 
   loop-dirs $HOSTS_DIR run
 
-  echo "FINISHED: run hosts for $CONTAINER_NAME"
+  echo-finished "run"
 }
 
 function update() {
-  echo "START: update $CONTAINER_NAME"
-  git pull
+  echo-start "update"
 
-  loop-dirs $HOSTS_DIR pull
+  loop-dirs $HOSTS_DIR update
 
-  echo "FINISHED: update $CONTAINER_NAME"
+  echo-finished "update"
 }
 
 function status() {
-  git status
+  echo-start "status"
 
   loop-dirs $HOSTS_DIR status
+
+  echo-finished "status"
 }
 
 
