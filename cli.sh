@@ -18,30 +18,37 @@ function build() {
 }
 
 function build-hosts() {
-  echo "build hosts in $HOSTS_DIR"
+  echo "build hosts in $PWD/$HOSTS_DIR"
 
   for host_dir in $(ls $HOSTS_DIR); do \
     full_dir=$HOSTS_DIR/$host_dir
     if [ -d $full_dir ]; then
       echo "running 'make build' in $full_dir"
-      cd $full_dir; make build
-      echo "finished 'make build'"
+      make -C $full_dir build
+      echo "SUCCESS: finished 'make build'"
+    else
+      echo "FAIL: not a directory: $full_dir"
     fi
+
   done
 
   echo "build hosts finished"
 }
 
 function run() {
-  echo "run hosts in $HOSTS_DIR"
+  echo "run hosts in $PWD/$HOSTS_DIR"
 
   for host_dir in $(ls $HOSTS_DIR); do \
     full_dir=$HOSTS_DIR/$host_dir
+    echo "try host in dir: $full_dir"
     if [ -d $full_dir ]; then
       echo "running 'make run' in $full_dir"
-      cd $full_dir; make run;
-      echo "'make run' finished"
+      make -C $full_dir run
+      echo "SUCCESS: 'make run' finished"
+    else
+      echo "FAIL: not a directory: $full_dir"
     fi
+
   done
 
   echo "run hosts finished"
