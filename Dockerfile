@@ -14,7 +14,7 @@ COPY package.json ./
 
 ENV NODE_ENV=production
 
-COPY .babelrc package.json ./
+COPY .babelrc package.json build.sh ./
 
 ARG CACHEBUST
 
