@@ -4,9 +4,9 @@ echo "STARTING: build nodejs"
 
 mkdir -p $DIST_DIR
 
-$NODE_BIN/babel \
+node_modules/.bin/babel \
   --out-dir $DIST_DIR \
-  $NODEJS_SRC_FILES
+  $SERVER_SRC_FILES
 
 echo "FINISHED: building nodejs"
 
