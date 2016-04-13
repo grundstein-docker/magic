@@ -10,8 +10,6 @@ RUN apk add --no-cache git bash
 
 WORKDIR /srv
 
-COPY package.json ./
-
 ENV NODE_ENV=production
 
 COPY .babelrc package.json build.sh ./
